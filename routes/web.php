@@ -13,7 +13,7 @@
 
 Route::get('/trangchu', function () {
     return view('welcome');
-});
+})->name('homepage');
 
 
 Route::get('', function(){
@@ -40,11 +40,11 @@ Route::get('chitiet/{id?}/{name?}', function($ma_sp = 1){
 
 
 
-Route::match(['get','post'],'login',function(){
-	echo 2323;
-	return redirect()->route('detail',[3,'sanpham']);
+// Route::match(['get','post'],'login',function(){
+	
 
-});
+
+// });
 
 
 Route::group(['prefix'=>'admin'],function(){
@@ -66,3 +66,20 @@ Route::group(['prefix'=>'admin'],function(){
 
 Route::get('home','PageController@getHomePage');
 Route::get('chi-tiet/{name}/{id}','PageController@getDetail');
+
+Route::get('login',[
+	'as' => 'dangnhap', //tên route
+	'uses' => 'PageController@getLogin' //gọi controller
+]);
+
+Route::post('login',[
+	'as' => 'dangnhap',
+	'uses' => 'PageController@postLogin'
+]);
+
+
+Route::get('setcookie','PageController@setCookie');
+Route::get('getcookie','PageController@getCookie');
+
+
+Route::get('test-session','PageController@testSession');

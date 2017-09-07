@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class PageController extends Controller
 {
@@ -37,4 +38,58 @@ class PageController extends Controller
 		//huong
 
 	}*/
+
+
+	public function getLogin(){
+		return view('login');
+	}
+
+
+	public function postLogin(Request $request){
+		$un = $request->username;
+		$pw = $request->password;
+		if($un == "admin" && $pw == '111111'){
+			//đăng nhập thành công
+			return redirect()->route('homepage')->with('thanhcong','Login Thành công');
+		}
+		else{
+			//fail
+			//return redirect()->route('dangnhap');
+			return redirect()->back()->with('thatbai','Sai thông tin đăng nhập');
+		}
+
+	}
+
+
+	public function setCookie(){
+		$res = new Response;
+		$res->withCookie('khoahoc','Laravel', 1);
+		echo 'setup cookie ';
+		return $res;
+	}
+
+	public function getCookie(Request $req){
+		echo $req->cookie('khoahoc');
+	}
+
+
+	public function testSession(){
+
+		//tạo session
+		session()->put('thanh_cong','Đã tạo session thành công');
+		session()->put('that_bai','Đã tạo session thất bại');
+
+		//xóa toàn bộ session_destroy()
+		session()->flush();
+
+		//xóa session thanh_cong unset()
+		session()->forget('thanh_cong');
+
+		echo session('thanh_cong');
+		echo session('that_bai');
+
+
+
+
+	}
 }
