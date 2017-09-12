@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/trangchu', function () {
+/*Route::get('/trangchu', function () {
     return view('welcome');
 })->name('homepage');
 
@@ -83,3 +83,70 @@ Route::get('getcookie','PageController@getCookie');
 
 
 Route::get('test-session','PageController@testSession');
+
+
+*/
+
+Route::get('','PageController@getTrangchu');
+
+
+Route::get('chitiet','PageController@getChitiet');
+
+Route::get('tao-bang-san-pham',function(){
+	Schema::create('products',function($table){
+		$table->increments('id');
+		$table->string('name');
+		$table->float('price');
+		$table->text('description');
+		$table->date('date_create');
+		$table->timestamps();
+	});
+	echo 'tạo bảng thành công';
+});
+
+Route::get('tao-bang-loai-san-pham',function(){
+	Schema::create('type_products',function($table){
+		$table->increments('id');
+		$table->string('name')->default('Tên loại');
+		$table->text('description');
+		$table->timestamps();
+	});
+	echo 'tạo bảng thành công';
+});
+
+
+Route::get('them-cot-bang-products',function(){
+	Schema::table('products',function($table){
+		$table->integer('id_type')->unsigned();
+		$table->foreign('id_type')->references('id')->on('type_products');
+	});
+	echo 'updated';
+});
+
+Route::get('remove-column',function(){
+	Schema::table('products',function($table){
+		$table->dropColumn('date_create');
+	});
+	echo 'deleted';
+});
+
+Route::get('rename-column',function(){
+	Schema::table('products', function ( $table) {
+	    $table->renameColumn('price', 'unit_price'); 
+	});
+	echo 'updated';
+});
+
+Route::get('rename-table',function(){
+
+	Schema::rename('products', 'sanpham');
+	echo 'updated';
+});
+
+
+Route::get('change-column',function(){
+	Schema::table('sanpham',function($table){
+		$table->string('description')->change();
+	});
+	echo 'updated';
+});

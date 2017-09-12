@@ -92,4 +92,16 @@ class PageController extends Controller
 
 
 	}
+
+
+	public function getTrangchu(){
+		$abc = 'giá trị';
+		return view('pages.trangchu',compact('abc'));
+	}
+
+	public function getChitiet(){
+
+		$abc = 'giá trị';
+		return view('pages.chitiet',compact('abc'));
+	}
 }

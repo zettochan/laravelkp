@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use View;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,6 +16,14 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+
+        View::share('key','value');
+
+        View::composer(['pages.trangchu'],function($view){
+            $view->with('key2','value2');
+        });
+
+        Schema::defaultStringLength(191);
     }
 
     /**
