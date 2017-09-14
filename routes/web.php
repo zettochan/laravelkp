@@ -150,3 +150,10 @@ Route::get('change-column',function(){
 	});
 	echo 'updated';
 });
+
+
+Route::group(['prefix'=>'query-builder'],function(){
+	
+	Route::get('product','QueryBuilderController@getProduct');
+
+});
