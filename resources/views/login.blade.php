@@ -19,14 +19,24 @@
 				</div>
 			@endif
 
-			<form class="form-horizontal" method="POST" action="{{route('dangnhap')}}">
+			@if($errors->any())
+				<div class="alert alert-danger">
+					
+					@foreach($errors->all() as $err)
+						<li>{{$err}}</li>
+					@endforeach
+
+				</div>
+			@endif
+
+			<form class="form-horizontal" method="POST" action="{{route('user-login')}}">
 
 				{{csrf_field()}}
 				{{-- <input type="hidden" name="_token" value="{{csrf_token()}}"> --}}
 				<div class="form-group">
 					<label class="control-label col-sm-3">Username </label>
 					<div class="col-sm-9">
-						<input class="form-control" name="username" placeholder="Enter Username">
+						<input class="form-control" name="email" placeholder="Enter your email" type="email">
 					</div>
 				</div>
 				

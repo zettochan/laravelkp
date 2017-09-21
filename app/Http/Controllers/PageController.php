@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Auth;
 
 class PageController extends Controller
 {
@@ -40,25 +41,25 @@ class PageController extends Controller
 	}*/
 
 
-	public function getLogin(){
-		return view('login');
-	}
+	// public function getLogin(){
+	// 	return view('login');
+	// }
 
 
-	public function postLogin(Request $request){
-		$un = $request->username;
-		$pw = $request->password;
-		if($un == "admin" && $pw == '111111'){
-			//đăng nhập thành công
-			return redirect()->route('homepage')->with('thanhcong','Login Thành công');
-		}
-		else{
-			//fail
-			//return redirect()->route('dangnhap');
-			return redirect()->back()->with('thatbai','Sai thông tin đăng nhập');
-		}
+	// public function postLogin(Request $request){
+	// 	$un = $request->username;
+	// 	$pw = $request->password;
+	// 	if($un == "admin" && $pw == '111111'){
+	// 		//đăng nhập thành công
+	// 		return redirect()->route('homepage')->with('thanhcong','Login Thành công');
+	// 	}
+	// 	else{
+	// 		//fail
+	// 		//return redirect()->route('dangnhap');
+	// 		return redirect()->back()->with('thatbai','Sai thông tin đăng nhập');
+	// 	}
 
-	}
+	// }
 
 
 	public function setCookie(){
@@ -103,5 +104,41 @@ class PageController extends Controller
 
 		$abc = 'giá trị';
 		return view('pages.chitiet',compact('abc'));
+	}
+
+
+	public function getLogin(){
+		return view('login');
+	}
+
+	public function postLogin(Request $req){
+	
+		// $req->validate([
+		// 	'email' => 'required|email',
+		// 	'password' => 'required|min:6|max:20'
+		// ]);
+		$this->validate($req,
+			[
+				'email' => 'required|email',
+				'password' => 'required|min:4|max:20'
+			],
+			[
+				'email.required' => 'Vui lòng nhập email',
+				'email.email'    => 'Email không đúng định dạng',
+				'password.required' => 'Mật khẩu không được rỗng',
+				'password.min' => 'Mật khẩu ít nhất 4 kí tự',
+				'password.max' => 'Mật khẩu ko vượt quá 20 kí tự'
+			]
+		);
+
+		$email = $req->email;
+		$password = $req->password;
+
+		$info = array('email'=>$email, 'password'=>$password);
+		//dd(Auth::attempt($info));
+		if(Auth::attempt($info)){
+			return view('welcome');
+		}
+		return redirect()->back()->with('thatbai','Sai thông tin đăng nhập');
 	}
 }

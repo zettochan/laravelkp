@@ -66,20 +66,27 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
+            @if (Route::has('user-login'))
                 <div class="top-right links">
                     @auth
                         <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/logout') }}">Logout</a>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
+                        <a href="{{ route('user-login') }}">Login</a>
+                        
                     @endauth
                 </div>
             @endif
 
             <div class="content">
                 <div class="title m-b-md">
-                    Lớp php 3/6
+                    @auth
+                        {{Auth::user()->username}}
+                        <br>
+                        {{Auth::user()->email}}
+                    @else
+                        Lớp php 3/6
+                    @endauth
                 </div>
 
 

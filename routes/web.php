@@ -11,7 +11,7 @@
 |
 */
 
-/*Route::get('/trangchu', function () {
+Route::get('/trangchu', function () {
     return view('welcome');
 })->name('homepage');
 
@@ -85,7 +85,7 @@ Route::get('getcookie','PageController@getCookie');
 Route::get('test-session','PageController@testSession');
 
 
-*/
+
 
 Route::get('','PageController@getTrangchu');
 
@@ -156,4 +156,37 @@ Route::group(['prefix'=>'query-builder'],function(){
 	
 	Route::get('product','QueryBuilderController@getProduct');
 
+});
+
+
+Route::group(['prefix'=>'model'],function(){
+	
+	Route::get('product','EloquentModelController@getProduct');
+	Route::get('product-relation','EloquentModelController@getProduct_relation');
+
+	Route::get('insert-user',function(){
+		$user = new \App\User();
+		$user->full_name = "Hương";
+		$user->email = "huong01@gmail.com";
+		$user->password = Hash::make('11111');
+		$user->save();
+		echo 'thành công';
+	});
+
+});
+
+Route::get('login',[
+	'as' =>'user-login',
+	'uses' => 'PageController@getLogin'
+]);
+Route::post('login',[
+	'as' =>'user-login',
+	'uses' => 'PageController@postLogin'
+]);
+
+Route::get('/logout',function(){
+	if(Auth::check())
+		Auth::logout();
+	else
+		echo 'chưa login';
 });
