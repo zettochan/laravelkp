@@ -13,7 +13,7 @@
 
 Route::get('/trangchu', function () {
     return view('welcome');
-})->name('homepage');
+})->name('homepage')->middleware('kiemtraDangnhap');
 
 
 Route::get('', function(){
@@ -159,7 +159,7 @@ Route::group(['prefix'=>'query-builder'],function(){
 });
 
 
-Route::group(['prefix'=>'model'],function(){
+Route::group(['prefix'=>'model','middleware'=>'kiemtraDangnhap'],function(){
 	
 	Route::get('product','EloquentModelController@getProduct');
 	Route::get('product-relation','EloquentModelController@getProduct_relation');
@@ -184,9 +184,24 @@ Route::post('login',[
 	'uses' => 'PageController@postLogin'
 ]);
 
+
+
+
+
 Route::get('/logout',function(){
 	if(Auth::check())
 		Auth::logout();
 	else
 		echo 'chưa login';
 });
+
+
+Route::get('/uploadfile',[
+	'as' => 'uploadfile',
+	'uses' => 'PageController@getFormUpload'
+]);
+
+Route::post('/uploadfile',[
+	'as' => 'uploadfile',
+	'uses' => 'PageController@postUpload'
+]);

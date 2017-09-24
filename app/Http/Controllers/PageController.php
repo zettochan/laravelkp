@@ -137,8 +137,55 @@ class PageController extends Controller
 		$info = array('email'=>$email, 'password'=>$password);
 		//dd(Auth::attempt($info));
 		if(Auth::attempt($info)){
-			return view('welcome');
+			return redirect()->route('homepage');
 		}
 		return redirect()->back()->with('thatbai','Sai thông tin đăng nhập');
+	}
+
+	public function getFormUpload(){
+		return view('uploadfile');
+	}
+
+	public function postUpload(Request $req){
+		if($req->hasFile('image')){
+
+			$images = $req->file('image');
+
+			$arrExt = ['docx','doc','ppt','pptx','xlsx','xls','jpg'];
+
+			foreach ($images as $image) {
+				$size = $image->getClientSize();
+				if($size>2048){//1024*2
+
+					$ext = $image->getClientOriginalExtension();
+
+					if(in_array($ext, $arrExt)){
+						$name = $image->getClientOriginalName();
+						$newName = time().'-'.$name;
+						$image->move('images/',$newName);
+						
+						echo 'File được lưu ở images/'.$newName;
+					}
+					else{
+						echo 'file ko được phép';
+					}
+					
+				}
+				else{
+					echo 'File quá lớn';
+				}
+			}
+			
+			
+
+
+			// if($image->isValid()){
+			// 	dd($name);
+			// }
+			// else{
+			// 	echo 'fail';
+			// }
+
+		}
 	}
 }
