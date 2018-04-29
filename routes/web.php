@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+//test
 Route::get('/trangchu', function () {
     return view('welcome');
 })->name('homepage')->middleware('kiemtraDangnhap');
